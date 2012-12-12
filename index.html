@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Vectors</title>
+<style type="text/css">
+body{
+	width:100%;
+	height:100%;
+	margin:0;
+}
+.area{
+	width:100%;
+	height:100%;
+	background:rgba(0,0,255,0.2);
+	position:absolute;
+}
+#stage{
+	width:100%;
+	height:100%;
+	position:absolute;
+	/*overflow:hidden;*/ /* This was necessary before I applied the bounce to predictedLocation */
+}
+.movable{
+	position:absolute;
+}
+.circle{
+	width:100px;
+	height:100px;
+	border-radius:100px;
+	background:rgba(255,0,0,0.6);
+	margin:-50px;	/* Centers it */
+}
+</style>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="js/geom.js"></script>
+<script type="text/javascript" src="js/physics.js"></script>
+<script type="text/javascript">
+var Circle = (function(){
+	var Circle = function(x,y){
+		console.log('Circle: constructor',x,y);
+		
+		this.physics = new Physics(x,y);
+
+		this.$ = $('<div class="movable circle" />').css({left:x, top:y});
+	};
+	
+	Circle.prototype.update = function(){
+		this.physics.update();
+
+		this.$.css({left:this.physics.location.x, top:this.physics.location.y});
+	};
+	
+	
+
+	return Circle;
+	
+})();
+
+var circles = [];
+var timer;
+var mouse;
+
+function update(){
+	for (var i=0, l=circles.length; i<l; i++){
+		var circle = circles[i];
+		var direction = Vector.applyCalculation(mouse, circle.physics.location, 'sub');
+		direction.scale(0.01);
+		circle.physics.applyForce(direction);
+		
+		var friction = circle.physics.calculateFriction(0.5);
+		circle.physics.applyForce(friction);
+		circle.update();
+	}
+}
+
+function addCircle(x,y){
+	console.log('addCircle',x,y);
+	var circle = new Circle(x,y);
+	$('#stage').append(circle.$);
+	circle.physics.setBounds(new Rectangle(50, 50, $('.area').width() - 50, $('.area').height() - 50));
+	circle.physics.mass = Math.ceil(Math.random() * 10);
+	circles.push(circle);
+}
+
+$(function(){
+	console.log('init');
+	
+	for (var i =0; i < 5; i++){
+		addCircle($('#stage').width()/2, $('#stage').height()/2);
+	}
+	
+	mouse = new Vector(0,0);
+	
+	$('#stage').on('mousemove',function(e){
+		mouse.x = e.pageX;
+		mouse.y = e.pageY;
+	});
+	
+	timer = setInterval(update, 1000 / 60);
+});
+</script>
+</head>
+
+<body>
+<div class='area'></div>
+<div id='stage'></div>
+</body>
+</html>
