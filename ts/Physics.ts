@@ -1,25 +1,34 @@
-var Physics = (function(){
+///<reference path="Vector.ts"/>
+///<reference path="Rectangle.ts"/>
+
+class Physics{
+	
+	public mass:number;
+	public acceleration:Vector;
+	public velocity:Vector;
+	public location:Vector;
+	public bounds:Rectangle;
 	
 	/**
 	* Constructor
 	*/
-	var Physics = function(x,y){
+	constructor(x:number, y:number){
 		this.mass = 1;
 		this.acceleration = new Vector(0,0);
 		this.velocity = new Vector(0,0);
 		this.location = new Vector(x,y);
 	}
 	
-	Physics.prototype.applyForce = function(force){
+	applyForce(force:Vector){
 		var f = Vector.applyCalculation(force, 1/this.mass, 'scale');
 		this.acceleration.add(f);
 	}
 	
-	Physics.prototype.setBounds = function(bounds){
+	setBounds(bounds:Rectangle){
 		this.bounds = bounds;
 	}
 	
-	Physics.prototype.checkBounds = function(){
+	checkBounds(){
 		var predictedLocation = Vector.applyCalculation(this.location, this.velocity, 'add');
 		if (!this.bounds.containsX(predictedLocation)){
 			this.velocity.x *= -1;
@@ -29,7 +38,7 @@ var Physics = (function(){
 		}
 	}
 	
-	Physics.prototype.update = function(){
+	update(){
 		this.velocity.add(this.acceleration);
 		this.velocity.limit(10);
 		
@@ -42,14 +51,15 @@ var Physics = (function(){
 		this.acceleration.scale(0);
 	}
 	
-	Physics.prototype.calculateGravity = function(gravity){
-		return gravity.scale(this.mass);
+	calculateGravity(gravity:Vector):Vector{
+		gravity.scale(this.mass)
+		return gravity;
 	}
 	
 	/**
 	* -μNv
 	*/
-	Physics.prototype.calculateFriction = function(mu){
+	calculateFriction(mu:number):Vector{
 		// Get unit v
 		var friction = this.velocity.clone();
 		friction.normalise();
@@ -59,7 +69,4 @@ var Physics = (function(){
 		friction.scale(mag);
 		return friction;
 	}
-	
-	return Physics;
-	
-})();
+}
