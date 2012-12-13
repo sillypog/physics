@@ -1,6 +1,6 @@
 ///<reference path="Vector.ts"/>
 
-module geom{
+module sillypog.geom{
 
 	export class Rectangle{
 		
