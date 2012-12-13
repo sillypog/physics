@@ -4,32 +4,32 @@
 class Physics{
 	
 	public mass:number;
-	public acceleration:Vector;
-	public velocity:Vector;
-	public location:Vector;
-	public bounds:Rectangle;
+	public acceleration:geom.Vector;
+	public velocity:geom.Vector;
+	public location:geom.Vector;
+	public bounds:geom.Rectangle;
 	
 	/**
 	* Constructor
 	*/
 	constructor(x:number, y:number){
 		this.mass = 1;
-		this.acceleration = new Vector(0,0);
-		this.velocity = new Vector(0,0);
-		this.location = new Vector(x,y);
+		this.acceleration = new geom.Vector(0,0);
+		this.velocity = new geom.Vector(0,0);
+		this.location = new geom.Vector(x,y);
 	}
 	
-	applyForce(force:Vector){
-		var f = Vector.applyCalculation(force, 1/this.mass, 'scale');
+	applyForce(force:geom.Vector){
+		var f = geom.Vector.applyCalculation(force, 1/this.mass, 'scale');
 		this.acceleration.add(f);
 	}
 	
-	setBounds(bounds:Rectangle){
+	setBounds(bounds:geom.Rectangle){
 		this.bounds = bounds;
 	}
 	
 	checkBounds(){
-		var predictedLocation = Vector.applyCalculation(this.location, this.velocity, 'add');
+		var predictedLocation = geom.Vector.applyCalculation(this.location, this.velocity, 'add');
 		if (!this.bounds.containsX(predictedLocation)){
 			this.velocity.x *= -1;
 		}
@@ -51,7 +51,7 @@ class Physics{
 		this.acceleration.scale(0);
 	}
 	
-	calculateGravity(gravity:Vector):Vector{
+	calculateGravity(gravity:geom.Vector):geom.Vector{
 		gravity.scale(this.mass)
 		return gravity;
 	}
@@ -59,7 +59,7 @@ class Physics{
 	/**
 	* -μNv
 	*/
-	calculateFriction(mu:number):Vector{
+	calculateFriction(mu:number):geom.Vector{
 		// Get unit v
 		var friction = this.velocity.clone();
 		friction.normalise();

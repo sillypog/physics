@@ -63,7 +63,7 @@ var mouse;
 function update(){
 	for (var i=0, l=circles.length; i<l; i++){
 		var circle = circles[i];
-		var direction = Vector.applyCalculation(mouse, circle.physics.location, 'sub');
+		var direction = geom.Vector.applyCalculation(mouse, circle.physics.location, 'sub');
 		direction.scale(0.01);
 		circle.physics.applyForce(direction);
 		
@@ -77,7 +77,7 @@ function addCircle(x,y){
 	console.log('addCircle',x,y);
 	var circle = new Circle(x,y);
 	$('#stage').append(circle.$);
-	circle.physics.setBounds(new Rectangle(50, 50, $('.area').width() - 50, $('.area').height() - 50));
+	circle.physics.setBounds(new geom.Rectangle(50, 50, $('.area').width() - 50, $('.area').height() - 50));
 	circle.physics.mass = Math.ceil(Math.random() * 10);
 	circles.push(circle);
 }
@@ -89,7 +89,7 @@ $(function(){
 		addCircle($('#stage').width()/2, $('#stage').height()/2);
 	}
 	
-	mouse = new Vector(0,0);
+	mouse = new geom.Vector(0,0);
 	
 	$('#stage').on('mousemove',function(e){
 		mouse.x = e.pageX;
