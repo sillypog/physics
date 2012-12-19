@@ -1,0 +1,1 @@
+tsc --out js/combined.js ts/app.ts

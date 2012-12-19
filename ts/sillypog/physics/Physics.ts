@@ -3,9 +3,6 @@
 
 module sillypog.physics{
 
-	// namespace module imports
-	var geom = sillypog.geom;
-
 	export class Physics{
 		
 		public mass:number;

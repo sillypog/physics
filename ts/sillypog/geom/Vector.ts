@@ -12,7 +12,9 @@ module sillypog.geom{
 		/**
 		* When you want to add 2 vectors without affecting either one.
 		*/
-		static applyCalculation(a:Vector, b, calc:string){
+		static applyCalculation(a:Vector, b:number, calc:string);
+		static applyCalculation(a:Vector, b:Vector, calc:string);
+		static applyCalculation(a:Vector, b:any, calc:string){
 			var v = a.clone();
 			v[calc](b);
 			return v;
