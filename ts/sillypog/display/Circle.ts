@@ -1,4 +1,4 @@
-///<reference path="lib/jquery.d.ts"/>
+///<reference path="../../lib/jquery.d.ts"/>
 ///<reference path="../physics/Physics.ts"/>
 
 module sillypog.display{
@@ -18,6 +18,10 @@ module sillypog.display{
 	
 			this.$ = $('<div class="movable circle" />').css({left:x, top:y});
 		};
+		
+		radius():number{
+			return this.$.width() /2;
+		}
 		
 		update(){
 			this.physics.update();

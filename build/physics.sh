@@ -1,0 +1,1 @@
+tsc --out js/sillypog.physics.js ts/sillypog/display/Circle.ts

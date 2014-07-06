@@ -41,6 +41,19 @@ module sillypog.geom{
 			this.y *= n;
 		}
 		
+		/**
+		* The dot product is related to the cosine between 2 vectors, 
+		* such that: A · B = |A| * |B| * cos(Θ),
+		* ie dot product = length of A * length of B * cosine of angle between them.
+		* So if A and B are unit vectors (length = 1) it becomes:
+		* A · B = cos(Θ)
+		*
+		* Also, the dot product of A · A = |A| * |A|
+		*/
+		dot(v:Vector):number{
+			return this.x*v.x + this.y+v.y;
+		}
+		
 		
 		mag():number{
 			return Math.sqrt(this.x*this.x + this.y*this.y);
@@ -64,6 +77,17 @@ module sillypog.geom{
 		
 		angle():number{
 			return Math.atan2(this.y, this.x);
+		}
+		
+		rotate(radians:number){
+			this.x += Math.cos(radians);
+			this.y += Math.sin(radians)
+		}
+		
+		perpendicular(){
+			var y = this.y;
+			this.y = this.x;
+			this.x = -y;
 		}
 	
 		clone():Vector{

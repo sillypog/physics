@@ -1,0 +1,1 @@
+tsc --out js/collision.js ts/collision.ts

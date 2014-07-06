@@ -44,6 +44,10 @@ module sillypog.physics{
 			this.velocity.add(this.acceleration);
 			this.velocity.limit(10);
 			
+			if (this.velocity.mag() < 0.01){
+				this.velocity.scale(0);
+			}
+			
 			// Check that we're not going to go out of bounds *before* we change the location
 			this.checkBounds();	
 			
